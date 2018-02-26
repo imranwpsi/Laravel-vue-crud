@@ -36,7 +36,15 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request,[
+            'name'=>'required',
+            'email'=>'required|email'
+        ]);
+        $customer = Customer::create($request->all());
+        return response()->json([
+            "customer"=>$customer,
+            'message'=>'Customer create successfully!'
+        ]);
     }
 
     /**
@@ -81,6 +89,7 @@ class CustomerController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Customer::destroy($id);
+        return response()->json(['message' => 'Customer delete successfully!']);
     }
 }
